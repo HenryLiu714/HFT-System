@@ -12,4 +12,4 @@ class OrderHandler():
         # Placeholder for order handling logic
 
         #TODO: Implement order handling logic here
-        print(fix_message)
+        return fix_message

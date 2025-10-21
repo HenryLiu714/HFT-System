@@ -5,7 +5,7 @@ import os
 
 load_dotenv()
 
-CLIENT_OUT_PORT = int(os.getenv('CLIENT_OUT_PORT'))
+CLIENT_OUT_PORT = int(os.getenv('EXCHANGE_IN_PORT'))
 
 class NetworkSender():
     def __init__(self, host='localhost', port=CLIENT_OUT_PORT):

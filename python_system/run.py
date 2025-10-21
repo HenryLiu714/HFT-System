@@ -19,9 +19,12 @@ class System():
             message = self.receiver.receive_data()
             if message:
                 fix_message = self.parser.decode_fix(message)
+
                 # Process the FIX message and update order book accordingly
                 # This is a placeholder for actual processing logic
-                self.orderhandler.handle_order(fix_message)
+                return_message = self.orderhandler.handle_order(fix_message)
+
+                self.sender.send_data(return_message)
 
 if __name__ == "__main__":
     system = System()
