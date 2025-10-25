@@ -17,10 +17,14 @@ class Server(object):
 
         # Setup UDP socket for receiving data
         self.in_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.in_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.in_sock.bind((self.host, self.in_port))
+
 
         # Setup UDP socket for sending data
         self.out_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.out_sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
 
     def receive_data(self):
         data, addr = self.in_sock.recvfrom(1024)  # buffer size is 1024 bytes
@@ -28,3 +32,12 @@ class Server(object):
 
     def send_data(self, data):
         self.out_sock.sendto(data.encode('utf-8'), (self.host, self.out_port))
+
+
+if __name__ == "__main__":
+    s = Server()
+    print(f"[Exchange] Listening on {s.in_port}, sending to {s.out_port}")
+    while True:
+        data = s.receive_data()
+        print(f"[Exchange] Received: {data}")
+        s.send_data("ACK from exchange")

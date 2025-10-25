@@ -1,0 +1,8 @@
+INFO:config:System polling started.
+INFO:config:Decoded FIX type: <class 'simplefix.message.FixMessage'>
+INFO:config:Decoded FIX raw bytes: b'8=FIX.4.2\x019=70\x0135=A\x0134=1\x0149=CLIENT1\x0156=EXCHANGE\x0152=20251001-18:30:00.000\x0198=0\x01108=30\x0110=021\x01'
+INFO:config:Decoded FIX tag 35 (MsgType): b'A'
+INFO:config:Received FIX message: 8=FIX.4.2|9=65|35=A|34=1|49=CLIENT1|56=EXCHANGE|52=20251001-18:30:00.000|98=0|108=30|10=128
+INFO:config:Sending response FIX message: 8=FIX.4.29=4035=A49=EXCHANGE56=CLIENT198=0108=3010=129
+INFO:config:Decoded FIX message: None
+INFO:config:Received FIX message: None

@@ -14,8 +14,10 @@ def timer(func):
 
 @timer
 def run_benchmark(test_server):
-    for _ in range(1000):  # Number of iterations for benchmarking
+    for _ in range(1000):
         for msg in messages:
+            msg = msg.replace('|', '\x01') 
+            print(repr(msg[:80]))
             test_server.send_data(msg)
             test_server.receive_data()
 
