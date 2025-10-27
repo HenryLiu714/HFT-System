@@ -18,3 +18,6 @@ class Parser(object):
             logger.info("Decoded FIX message: None")
 
         return fix_msg
+    
+    def get_tag_value(self, fix_message, tag):
+        return fix_message.get(tag)

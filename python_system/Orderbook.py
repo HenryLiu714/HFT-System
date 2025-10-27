@@ -17,3 +17,6 @@ class OrderBook(object):
                     del self.asks[price]
             else:
                 self.asks[price] = size
+
+    def __repr__(self):
+        return f"Bids: {self.bids} | Asks: {self.asks}"

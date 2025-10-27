@@ -3,6 +3,8 @@ INFO:config:Decoded FIX type: <class 'simplefix.message.FixMessage'>
 INFO:config:Decoded FIX raw bytes: b'8=FIX.4.2\x019=70\x0135=A\x0134=1\x0149=CLIENT1\x0156=EXCHANGE\x0152=20251001-18:30:00.000\x0198=0\x01108=30\x0110=021\x01'
 INFO:config:Decoded FIX tag 35 (MsgType): b'A'
 INFO:config:Received FIX message: 8=FIX.4.2|9=65|35=A|34=1|49=CLIENT1|56=EXCHANGE|52=20251001-18:30:00.000|98=0|108=30|10=128
-INFO:config:Sending response FIX message: 8=FIX.4.29=4035=A49=EXCHANGE56=CLIENT198=0108=3010=129
-INFO:config:Decoded FIX message: None
-INFO:config:Received FIX message: None
+INFO:config:Sending response FIX message: 8=FIX.4.29=1028=FIX.4.29=7035=A49=EXCHANGE56=CLIENT134=152=20251027-19:59:43.63898=0108=3010=06510=066
+INFO:config:Decoded FIX type: <class 'simplefix.message.FixMessage'>
+INFO:config:Decoded FIX raw bytes: b'8=FIX.4.4\x019=136\x0135=W\x0134=2\x0149=EXCHANGE\x0156=CLIENT1\x0152=20251001-22:15:43.123\x0162=MDReqID123\x0155=AAPL\x01268=2\x01269=0\x01270=172.35\x01271=100\x01269=1\x01270=172.40\x01271=200\x0110=167\x01'
+INFO:config:Decoded FIX tag 35 (MsgType): b'W'
+INFO:config:Received FIX message: 8=FIX.4.4|9=178|35=W|34=2|49=EXCHANGE|56=CLIENT1|52=20251001-22:15:43.123|62=MDReqID123|55=AAPL|268=2|269=0|270=172.35|271=100|269=1|270=172.40|271=200|10=128
