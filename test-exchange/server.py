@@ -5,7 +5,6 @@ import os
 load_dotenv()
 
 EXCHANGE_IN_PORT = int(os.getenv('EXCHANGE_IN_PORT'))
-EXCHANGE_OUT_PORT = int(os.getenv('EXCHANGE_OUT_PORT'))
 
 CLIENT_IN_PORT = int(os.getenv('CLIENT_IN_PORT'))
 
