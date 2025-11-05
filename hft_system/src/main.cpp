@@ -1,5 +1,12 @@
+#include "NetworkReceiver.h"
+
 #include <iostream>
+#include <string>
 
 int main() {
-    std::cout << "Hello";
+    NetworkReceiver receiver = NetworkReceiver();
+
+    std::string data = receiver.receive_data();
+
+    std::cout << data << std::endl;
 }
