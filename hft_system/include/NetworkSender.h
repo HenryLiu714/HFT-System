@@ -7,7 +7,7 @@
 
 class NetworkSender {
 public:
-    NetworkSender(const std::string &host, int port = CLIENT_OUT_PORT);
+    NetworkSender(const std::string &host = RESPONSE_HOST, int port = CLIENT_OUT_PORT);
     ~NetworkSender();
 
     void send_data(const std::string &data);
