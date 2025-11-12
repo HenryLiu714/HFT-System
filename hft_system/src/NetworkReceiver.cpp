@@ -52,8 +52,4 @@ std::string NetworkReceiver::receive_data() {
     return std::string(buffer);
 }
 
-NetworkReceiver::~NetworkReceiver() {
-    close(sockfd);
-}
-
 
