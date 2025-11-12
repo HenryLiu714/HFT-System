@@ -16,4 +16,6 @@ class NetworkReceiver {
     private:
         int sockfd;
         struct sockaddr_in servaddr, cliaddr;
+
+
 };
