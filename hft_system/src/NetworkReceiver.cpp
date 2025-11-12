@@ -7,7 +7,7 @@
 
 #define BUFFER_SIZE 1024
 
-NetworkReceiver::NetworkReceiver() {
+NetworkReceiver::NetworkReceiver(int port) {
     sockfd = socket(AF_INET, SOCK_DGRAM, 0);
 
     if (sockfd < 0) {
@@ -20,7 +20,7 @@ NetworkReceiver::NetworkReceiver() {
 
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = INADDR_ANY;
-    servaddr.sin_port = htons(CLIENT_IN_PORT);
+    servaddr.sin_port = htons(port);
 
     // Bind the socket
     if (bind(sockfd, (const struct sockaddr *)&servaddr, sizeof(servaddr)) < 0) {
@@ -29,7 +29,11 @@ NetworkReceiver::NetworkReceiver() {
         throw std::runtime_error("Failed to bind socket");
     }
 
-    std::cout << "Receiver listening on port " << CLIENT_IN_PORT << "...\n";
+    std::cout << "Receiver listening on port " << port << "...\n";
+}
+
+NetworkReceiver::~NetworkReceiver() {
+    close(sockfd);
 }
 
 std::string NetworkReceiver::receive_data() {

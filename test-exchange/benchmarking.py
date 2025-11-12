@@ -17,7 +17,7 @@ def run_benchmark(test_server):
     for _ in range(1000):  # Number of iterations for benchmarking
         for msg in messages:
             test_server.send_data(msg)
-            test_server.receive_data()
+            print(test_server.receive_data())
 
 if __name__ == "__main__":
     test_server = server.Server()

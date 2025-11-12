@@ -8,7 +8,8 @@
 class NetworkReceiver {
 
     public:
-        NetworkReceiver();
+        NetworkReceiver(int port = CLIENT_IN_PORT);
+        ~NetworkReceiver();
 
         std::string receive_data();
 
