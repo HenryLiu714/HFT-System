@@ -9,10 +9,12 @@ class NetworkReceiver {
 
     public:
         NetworkReceiver();
-
+        ~NetworkReceiver();
         std::string receive_data();
 
     private:
         int sockfd;
         struct sockaddr_in servaddr, cliaddr;
+
+
 };

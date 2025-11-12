@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <iostream>
 #include <cstring>
+#include <stdexcept>
 
 #define BUFFER_SIZE 1024
 
@@ -46,4 +47,9 @@ std::string NetworkReceiver::receive_data() {
     buffer[n] = '\0';  // Null-terminate
     return std::string(buffer);
 }
+
+NetworkReceiver::~NetworkReceiver() {
+    close(sockfd);
+}
+
 
