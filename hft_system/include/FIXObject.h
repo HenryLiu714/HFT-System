@@ -15,7 +15,7 @@ class FIXObject {
 
         void set_field(int tag, const std::string &value);
 
-        std::string get_field(int tag);
+        std::string get_field(int tag) const;
 
         std::string to_string() const;
 
