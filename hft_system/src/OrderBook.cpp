@@ -1,4 +1,4 @@
-#include "../include/OrderBook.h"
+#include "OrderBook.h"
 
 OrderBook::OrderBook(const std::string &symbol){
     ticker = symbol;
