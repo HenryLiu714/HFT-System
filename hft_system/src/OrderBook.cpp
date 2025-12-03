@@ -37,3 +37,4 @@ double OrderBook::get_best_ask(){
     if (asks.empty()) return 0.0;
     return asks.begin()->first;
 }
+
