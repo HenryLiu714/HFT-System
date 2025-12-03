@@ -19,8 +19,23 @@ SYMBOL_PRICING = {
     "TSLA": {"base": 240.00, "vol": 5.00},
     "AMZN": {"base": 180.75, "vol": 2.00},
 }
-DEFAULT_BASE_PRICE = 172.0
-DEFAULT_VOLATILITY = 3.0
+
+CURRENT_PRICES = {}
+CURRENT_VOLATILITY = {}
+MIN_VOL = 0.10
+MAX_VOL = 10.00
+
+
+def initialize_prices():
+    global CURRENT_PRICES
+    for symbol, config in SYMBOL_PRICING.items():
+        start_price = config["base"] + random.uniform(-config["vol"] / 2, config["vol"] / 2)
+        CURRENT_PRICES[symbol] = round(start_price, 2)
+
+def initialize_volatility():
+    global CURRENT_VOLATILITY
+    for symbol, config in SYMBOL_PRICING.items():
+        CURRENT_VOLATILITY[symbol] = config["vol"]
 
 # ---------------------
 # Helper functions
@@ -30,18 +45,24 @@ def rand_id(n=8):
     chars = string.ascii_uppercase + string.digits
     return ''.join(random.choices(chars, k=n))
 
-def rand_price(symbol=None):
+def rand_price(symbol=None) -> float:
     """
-    Return realistic random price (rounded to 2 decimal places),
-    now dynamically based on the provided symbol. (FIXED)
+    Return random price
     """
-    
-    # Look up pricing configuration for the symbol, falling back to defaults
-    pricing = SYMBOL_PRICING.get(symbol, {})
-    base = pricing.get("base", DEFAULT_BASE_PRICE)
-    vol = pricing.get("vol", DEFAULT_VOLATILITY)
-    
-    return round(base + random.uniform(-vol, vol), 2)
+    global CURRENT_PRICES
+    global CURRENT_VOLATILITY
+
+    price = CURRENT_PRICES.get(symbol)
+    vol = CURRENT_VOLATILITY.get(symbol)
+    vol_step = random.uniform(-0.05, 0.05)
+    new_vol = max(MIN_VOL, min(round(vol + vol_step, 2), MAX_VOL))
+
+    CURRENT_VOLATILITY[symbol] = new_vol
+
+    price_step = random.uniform(-0.1*new_vol, 0.1*new_vol)
+    new_price = max(5.0, round(price + price_step, 2))
+    CURRENT_PRICES[symbol] = new_price
+    return new_price
 
 def now_ts():
     """Return FIX timestamp: YYYYMMDD-HH:MM:SS.sss (Tag 52: SendingTime)"""
@@ -76,9 +97,9 @@ def wrap_fix(fields: dict) -> str:
 
     header_order = {
         35: 0, # MsgType
-        34: 1, # MsgSeqNum
-        49: 2, # SenderCompID
-        56: 3, # TargetCompID
+        49: 1, # SenderCompID
+        56: 2, # TargetCompID
+        34: 3, # MsgSeqNum
         52: 4, # SendingTime
     }
     
@@ -106,7 +127,7 @@ def wrap_fix(fields: dict) -> str:
     ) + SOH
 
     body_length = len(body_content)
-    header = f"8=FIX.4.4{SOH}9={body_length}{SOH}"
+    header = f"8=FIX.4.2{SOH}9={body_length}{SOH}"
     msg_without_checksum = header + body_content
     checksum = compute_checksum(msg_without_checksum)
     
@@ -196,6 +217,7 @@ def gen_new_order(symbol=None):
     global msg_seq_num
     sender = get_random_sender()
     symbol = symbol or get_random_symbol()
+    curr_price = CURRENT_PRICES[symbol]
 
     fields = {
         35: "D",
@@ -209,7 +231,7 @@ def gen_new_order(symbol=None):
         40: 2,                # OrdType (2=Limit)
     }
     if fields[40] == 2:
-        fields[44] = rand_price(symbol) 
+        fields[44] = curr_price
         
     fields[60] = now_ts()  # TransactTime
     fields[52] = now_ts()
@@ -250,7 +272,7 @@ def gen_execution_report(symbol=None):
     symbol = symbol or get_random_symbol()
     qty = random.randint(1, 200)
     filled = random.randint(1, qty) # Always generate at least a partial fill or a full fill
-    last_px = rand_price(symbol) 
+    last_px = CURRENT_PRICES[symbol]
 
     fields = {
         35: "8",
@@ -284,6 +306,8 @@ def gen_execution_report(symbol=None):
 
 # ---------------------
 # Message Type Registry
+# Message_types should be updated by what meaning we assign to each message, like if 35 =D ends up being anybodys fill
+# and if 35 = X is interpretated as new bid or ask available (not accurate but close enough for simulating trading logic)
 
 MESSAGE_TYPES = [
     gen_logon,
@@ -301,5 +325,7 @@ def generate_random_message():
 
 if __name__ == "__main__":
     # Generate and print 5 random FIX messages for debugging
-    for _ in range(5):
+    initialize_volatility()
+    initialize_prices()
+    for _ in range(60000):
         print(generate_random_message())
