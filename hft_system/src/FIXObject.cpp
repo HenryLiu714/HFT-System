@@ -10,7 +10,7 @@ void FIXObject::set_field(int tag, const std::string &value) {
     fields[tag] = value;
 }
 
-std::string FIXObject::get_field(int tag) {
+std::string FIXObject::get_field(int tag) const {
     /**
      * @brief Retrieves the value for a given FIX tag.
      *
